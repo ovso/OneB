@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.ovso.oneb">
 
+  <uses-permission
+      android:name="android.permission.GET_ACCOUNTS"
+      android:maxSdkVersion="22"/>
   <application
       android:name=".App"
       android:allowBackup="true"
