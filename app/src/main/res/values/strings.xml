@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">OneB</string>
+  <string name="action_settings">Settings</string>
+  <string name="main_title">Test 설정</string>
+</resources>
