@@ -14,14 +14,22 @@ public class App extends Application {
     super.onCreate();
     instance = this;
     Stetho.initializeWithDefaults(this);
-    if (BuildConfig.DEBUG) {
-      Timber.plant(new Timber.DebugTree());
-    }
+    setupTimber();
+    setupPrefs();
+  }
+
+  private void setupPrefs() {
     new Prefs.Builder()
         .setContext(this)
         .setMode(ContextWrapper.MODE_PRIVATE)
         .setPrefsName(getPackageName())
         .setUseDefaultSharedPreference(true)
         .build();
+  }
+
+  private void setupTimber() {
+    if (BuildConfig.DEBUG) {
+      Timber.plant(new Timber.DebugTree());
+    }
   }
 }
