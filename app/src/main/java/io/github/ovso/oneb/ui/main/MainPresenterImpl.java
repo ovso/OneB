@@ -40,11 +40,21 @@ public class MainPresenterImpl implements MainPresenter {
     testMode = checked;
     Timber.d("testMode = %s", testMode);
     if (testMode) {
-      Intent intent = new Intent(Consts.BR_ACTION_NAME_A)
-          .putExtra(Consts.BR_KEY_OPERATOR, Prefs.getInt(Consts.PREFS_KEY_OPERATOR, 0))
-          .putExtra(Consts.BR_KEY_EMAIL, Prefs.getString(Consts.PREFS_KEY_EMAIL, ""));
-      App.getInstance().sendBroadcast(intent);
+      sendDataBroadcast();
     }
+    sendModeBroadcast(checked);
+  }
+
+  private void sendModeBroadcast(boolean checked) {
+    Intent intent = new Intent(Consts.BR_ACTION_MODE).putExtra(Consts.BR_KEY_MODE, checked);
+    App.getInstance().sendBroadcast(intent);
+  }
+
+  private void sendDataBroadcast() {
+    Intent intent = new Intent(Consts.BR_ACTION_DATA)
+        .putExtra(Consts.BR_KEY_OPERATOR, Prefs.getInt(Consts.PREFS_KEY_OPERATOR, 0))
+        .putExtra(Consts.BR_KEY_EMAIL, Prefs.getString(Consts.PREFS_KEY_EMAIL, ""));
+    App.getInstance().sendBroadcast(intent);
   }
 
   @Override public void onSaveClick() {
