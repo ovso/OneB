@@ -1,5 +1,6 @@
 package io.github.ovso.oneb.ui.main;
 
+import android.content.Intent;
 import com.pixplicity.easyprefs.library.Prefs;
 import io.github.ovso.oneb.App;
 import io.github.ovso.oneb.R;
@@ -15,7 +16,7 @@ public class MainPresenterImpl implements MainPresenter {
   private String email;
   private boolean testMode;
 
-  public MainPresenterImpl(MainPresenter.View view) {
+  MainPresenterImpl(MainPresenter.View view) {
     this.view = view;
   }
 
@@ -27,6 +28,7 @@ public class MainPresenterImpl implements MainPresenter {
 
   @Override public void onCheckedChange(int checkedId) {
     Timber.d("onCheckedChange(%d)", checkedId);
+    checkedItemId = checkedId;
   }
 
   @Override public void onEmailTextChanged(String email) {
@@ -37,6 +39,12 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onTestModeChecked(boolean checked) {
     testMode = checked;
     Timber.d("testMode = %s", testMode);
+    if (testMode) {
+      Intent intent = new Intent(Consts.BR_ACTION_NAME_A)
+          .putExtra(Consts.BR_KEY_OPERATOR, Prefs.getInt(Consts.PREFS_KEY_OPERATOR, -1))
+          .putExtra(Consts.BR_KEY_EMAIL, Prefs.getString(Consts.PREFS_KEY_EMAIL, ""));
+      App.getInstance().sendBroadcast(intent);
+    }
   }
 
   @Override public void onSaveClick() {
