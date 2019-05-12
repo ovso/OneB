@@ -1,7 +1,9 @@
 package io.github.ovso.oneb.ui.main;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import io.github.ovso.oneb.App;
 import io.github.ovso.oneb.R;
+import io.github.ovso.oneb.utils.Consts;
 import io.github.ovso.oneb.utils.SimOperator;
 import io.github.ovso.oneb.utils.UserAccountFetcher;
 import timber.log.Timber;
@@ -38,7 +40,8 @@ public class MainPresenterImpl implements MainPresenter {
   }
 
   @Override public void onSaveClick() {
-    
+    Prefs.putInt(Consts.PREFS_KEY_OPERATOR, checkedItemId);
+    Prefs.putString(Consts.PREFS_KEY_EMAIL, email);
   }
 
   private void setupOperators() {
