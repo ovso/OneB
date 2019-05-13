@@ -24,5 +24,7 @@ public interface MainPresenter {
     void setupOperatorGroup();
 
     void enableSaveButton(boolean enable);
+
+    void setupEmail(String email);
   }
 }

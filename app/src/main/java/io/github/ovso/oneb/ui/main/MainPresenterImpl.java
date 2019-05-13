@@ -23,6 +23,9 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onCreate() {
     String title = App.getInstance().getString(R.string.main_title);
     view.setupTitle(title);
+    String email = UserAccountFetcher.getEmail(App.getInstance());
+    view.setupEmail(email);
+    view.enableSaveButton(UserAccountFetcher.isValidEmail(email));
     setupOperators();
   }
 

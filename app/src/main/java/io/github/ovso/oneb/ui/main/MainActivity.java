@@ -3,6 +3,7 @@ package io.github.ovso.oneb.ui.main;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import io.github.ovso.oneb.utils.SimOperator;
 public class MainActivity extends BaseActivity implements MainPresenter.View {
   @BindView(R.id.radiogroup_main) RadioGroup radioGroup;
   @BindView(R.id.button_main_save) Button saveButton;
+  @BindView(R.id.edittext_main_email) EditText emailEditText;
 
   private MainPresenter presenter = new MainPresenterImpl(this);
 
@@ -57,6 +59,10 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void enableSaveButton(boolean enable) {
     saveButton.setEnabled(enable);
+  }
+
+  @Override public void setupEmail(String email) {
+    emailEditText.setText(email);
   }
 
   @OnTextChanged(R.id.edittext_main_email) void onEmailTextChanged(CharSequence s) {
