@@ -1,5 +1,6 @@
 package io.github.ovso.oneb.ui.main;
 
+import android.content.Intent;
 import io.github.ovso.oneb.utils.SimOperator;
 
 public interface MainPresenter {
@@ -14,6 +15,8 @@ public interface MainPresenter {
 
   void onSaveClick();
 
+  void onActivityResult(int requestCode, Intent data);
+
   interface View {
     void setupTitle(String title);
 
@@ -26,5 +29,7 @@ public interface MainPresenter {
     void enableSaveButton(boolean enable);
 
     void setupEmail(String email);
+
+    void navigateToChooseAccount();
   }
 }

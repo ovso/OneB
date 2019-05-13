@@ -7,4 +7,5 @@
   <string name="main_change_google_account">구글 계정 변경</string>
   <string name="main_input_hint">xxxxx@gmail.com</string>
   <string name="main_save_button">저장</string>
+  <string name="permission">권한을 설정하셔야 합니다.</string>
 </resources>

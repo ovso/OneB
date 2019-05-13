@@ -4,8 +4,8 @@
     package="io.github.ovso.oneb">
 
   <uses-permission
-      android:name="android.permission.GET_ACCOUNTS"
-      android:maxSdkVersion="22"/>
+      android:name="android.permission.GET_ACCOUNTS"/>
+
   <application
       android:name=".App"
       android:allowBackup="true"

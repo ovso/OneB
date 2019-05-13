@@ -3,6 +3,7 @@ package io.github.ovso.oneb.utils;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.text.TextUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,9 +32,13 @@ public final class UserAccountFetcher {
   }
 
   public static boolean isValidEmail(String email) {
-    String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-    Pattern p = Pattern.compile(regex);
-    Matcher m = p.matcher(email);
-    return m.matches();
+    if (TextUtils.isEmpty(email)) {
+      return false;
+    } else {
+      String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+      Pattern p = Pattern.compile(regex);
+      Matcher m = p.matcher(email);
+      return m.matches();
+    }
   }
 }

@@ -1,6 +1,8 @@
 package io.github.ovso.oneb.ui.main;
 
+import android.accounts.AccountManager;
 import android.content.Intent;
+import android.os.Bundle;
 import com.pixplicity.easyprefs.library.Prefs;
 import io.github.ovso.oneb.App;
 import io.github.ovso.oneb.R;
@@ -23,10 +25,19 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onCreate() {
     String title = App.getInstance().getString(R.string.main_title);
     view.setupTitle(title);
-    String email = UserAccountFetcher.getEmail(App.getInstance());
-    view.setupEmail(email);
-    view.enableSaveButton(UserAccountFetcher.isValidEmail(email));
     setupOperators();
+
+    handleGetEmail();
+  }
+
+  private void handleGetEmail() {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+      view.navigateToChooseAccount();
+    } else {
+      String email = UserAccountFetcher.getEmail(App.getInstance());
+      view.setupEmail(email);
+      view.enableSaveButton(UserAccountFetcher.isValidEmail(email));
+    }
   }
 
   @Override public void onCheckedChange(int checkedId) {
@@ -63,6 +74,17 @@ public class MainPresenterImpl implements MainPresenter {
     Prefs.putString(Consts.PREFS_KEY_EMAIL, email);
     if (testMode) {
       sendDataBroadcast();
+    }
+  }
+
+  @Override public void onActivityResult(int requestCode, Intent data) {
+    if(requestCode == MainActivity.REQUEST_CODE_CHOOSE_ACCOUNT && data != null) {
+      Bundle extras = data.getExtras();
+      final String accountName = extras.getString(AccountManager.KEY_ACCOUNT_NAME);
+      final String accountType = extras.getString(AccountManager.KEY_ACCOUNT_TYPE);
+      Timber.d("accountName = " + accountName);
+      Timber.d("accountTYpe = " + accountType);
+      view.setupEmail(accountName);
     }
   }
 

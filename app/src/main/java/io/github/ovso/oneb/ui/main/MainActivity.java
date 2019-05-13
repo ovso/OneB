@@ -1,5 +1,8 @@
 package io.github.ovso.oneb.ui.main;
 
+import android.accounts.AccountManager;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -7,6 +10,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
@@ -16,6 +20,7 @@ import io.github.ovso.oneb.ui.base.BaseActivity;
 import io.github.ovso.oneb.utils.SimOperator;
 
 public class MainActivity extends BaseActivity implements MainPresenter.View {
+  public final static int REQUEST_CODE_CHOOSE_ACCOUNT = 101;
   @BindView(R.id.radiogroup_main) RadioGroup radioGroup;
   @BindView(R.id.button_main_save) Button saveButton;
   @BindView(R.id.edittext_main_email) EditText emailEditText;
@@ -25,6 +30,16 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     presenter.onCreate();
+  }
+
+  private void chooseAccountIntent() {
+
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+      Intent intent = null;
+      intent = AccountManager.newChooseAccountIntent(
+          null, null, new String[] { "com.google" }, null, null, null, null);
+      startActivityForResult(intent, 110);
+    }
   }
 
   @Override protected int getLayoutResId() {
@@ -63,6 +78,24 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
 
   @Override public void setupEmail(String email) {
     emailEditText.setText(email);
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M) @Override public void navigateToChooseAccount() {
+    Intent intent = AccountManager.newChooseAccountIntent(
+        null,
+        null,
+        new String[] { "com.google" },
+        null,
+        null,
+        null,
+        null);
+    startActivityForResult(intent, REQUEST_CODE_CHOOSE_ACCOUNT);
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    presenter.onActivityResult(requestCode, data);
   }
 
   @OnTextChanged(R.id.edittext_main_email) void onEmailTextChanged(CharSequence s) {
