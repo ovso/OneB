@@ -39,9 +39,7 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onTestModeChecked(boolean checked) {
     testMode = checked;
     Timber.d("testMode = %s", testMode);
-    if (testMode) {
-      sendDataBroadcast();
-    }
+    sendDataBroadcast();
     sendModeBroadcast(checked);
   }
 
@@ -60,6 +58,9 @@ public class MainPresenterImpl implements MainPresenter {
   @Override public void onSaveClick() {
     Prefs.putInt(Consts.PREFS_KEY_OPERATOR, checkedItemId);
     Prefs.putString(Consts.PREFS_KEY_EMAIL, email);
+    if (testMode) {
+      sendDataBroadcast();
+    }
   }
 
   private void setupOperators() {
