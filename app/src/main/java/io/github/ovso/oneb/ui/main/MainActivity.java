@@ -32,16 +32,6 @@ public class MainActivity extends BaseActivity implements MainPresenter.View {
     presenter.onCreate();
   }
 
-  private void chooseAccountIntent() {
-
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-      Intent intent = null;
-      intent = AccountManager.newChooseAccountIntent(
-          null, null, new String[] { "com.google" }, null, null, null, null);
-      startActivityForResult(intent, 110);
-    }
-  }
-
   @Override protected int getLayoutResId() {
     return R.layout.activity_main;
   }
